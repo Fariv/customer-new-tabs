@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Edit View Prototype</title>
+  <style>
+    :root {
+      --bg: #f5f5f3;
+      --panel: #ffffff;
+      --line: #d9d9d9;
+      --text: #3c3c3c;
+      --muted: #6f6f6f;
+      --teal: #37c6a0;
+      --teal-dark: #28ae8a;
+      --gold: #f2b14a;
+      --blue: #5f95ea;
+      --shadow: 0 8px 26px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(180,180,180,.15) 0 6px, transparent 7px),
+        radial-gradient(circle at 92% 14%, rgba(180,180,180,.15) 0 6px, transparent 7px),
+        radial-gradient(circle at 3% 58%, rgba(180,180,180,.15) 0 6px, transparent 7px),
+        radial-gradient(circle at 96% 44%, rgba(180,180,180,.15) 0 6px, transparent 7px),
+        var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      height: 58px;
+      background: #efe0c0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      border-bottom: 1px solid #e3d6bb;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 700;
+      color: #6c1020;
+      line-height: 1;
+    }
+
+    .logo small {
+      display: block;
+      color: #7f5e4e;
+      font-size: 12px;
+      margin-top: -4px;
+      margin-left: 92px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 28px;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #6a6a6a;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #945848, #d8b18d);
+      border: 2px solid rgba(255,255,255,.8);
+    }
+
+    .shell {
+      max-width: 1410px;
+      margin: 24px auto 40px;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid #dededc;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 26px 12px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .back-btn {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      padding: 9px 14px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn.save { background: var(--teal); }
+    .btn.save:hover { background: var(--teal-dark); }
+    .btn.add { background: var(--gold); }
+    .btn.copy { background: var(--teal); }
+    .btn.delete { background: #9f9f9f; }
+
+    .content {
+      padding: 16px 26px 26px;
+    }
+
+    .grid-top {
+      display: grid;
+      grid-template-columns: 90px 1.2fr 0.6fr 1.8fr 1.6fr 120px;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .meta-block {
+      text-align: center;
+      color: #5f5f5f;
+      font-size: 12px;
+      line-height: 1.5;
+      align-self: center;
+    }
+
+    .status-pill {
+      background: var(--teal);
+      color: #fff;
+      border-radius: 4px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: #555;
+      font-weight: 700;
+    }
+
+    .input, textarea {
+      width: 100%;
+      border: 1px solid #d4d7dc;
+      border-radius: 3px;
+      background: #fff;
+      min-height: 34px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #4b4b4b;
+    }
+
+    .triple-sections {
+      display: grid;
+      grid-template-columns: 1.15fr 1.15fr 1.15fr;
+      gap: 24px;
+      margin-top: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #373737;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .link {
+      color: #4785d6;
+      text-decoration: underline;
+      font-weight: 400;
+      margin-left: 12px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .inline-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #555;
+      margin-top: 8px;
+    }
+
+    .inline-check .box {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #bfc6d0;
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      border-bottom: 1px solid #e3e3e1;
+      margin-top: 18px;
+    }
+
+    .tab {
+      position: relative;
+      padding: 12px 0 14px;
+      font-size: 14px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab.active {
+      color: #222;
+      font-weight: 700;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 3px;
+      background: #f0a533;
+      border-radius: 2px 2px 0 0;
+    }
+
+    .badge {
+      min-width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      padding: 0 8px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .tab-panel {
+      padding: 20px 0 0;
+      min-height: 260px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .projects-listview {
+      border-top: 0;
+      background: #fff;
+    }
+
+    .list-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 14px;
+      padding: 0 0 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .toolbar-search {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .toolbar-search input {
+      flex: 1;
+      height: 40px;
+      border: 1px solid #d7dbe0;
+      border-right: none;
+      border-radius: 4px 0 0 4px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .toolbar-search button {
+      width: 58px;
+      height: 40px;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      background: #f2b14a;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .table-wrap {
+      border: 1px solid #d9e1eb;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    .list-header,
+    .list-row {
+      display: grid;
+      grid-template-columns: 170px 160px 180px 170px 170px 170px 170px 170px 150px;
+      min-width: 1480px;
+    }
+
+    .list-header {
+      background: #efe0c0;
+      color: #2f2f2f;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .list-header div,
+    .list-row div {
+      padding: 16px 14px;
+      border-right: 1px solid #e3e3e3;
+    }
+
+    .list-header div:last-child,
+    .list-row div:last-child {
+      border-right: none;
+    }
+
+    .list-row {
+      font-size: 13px;
+      color: #4a4a4a;
+      border-top: 1px solid #ececec;
+      background: #fff;
+    }
+
+    .list-row:nth-child(odd) {
+      background: #f3f3f3;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 4px 14px;
+      border-radius: 4px;
+      background: #a9a7b0;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .amount-cell {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .list-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      border-top: 1px solid #e6e6e6;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+
+    .show-wrap,
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .page-pill {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #f2b14a;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .page-link {
+      font-size: 14px;
+      color: #333;
+      min-width: 18px;
+    }
+
+    .mini-select,
+    .show-select {
+      height: 38px;
+      border: 1px solid #d7dbe0;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-size: 14px;
+      gap: 10px;
+    }
+
+    .mini-select {
+      min-width: 94px;
+      background: #fff;
+    }
+
+    .show-select {
+      min-width: 72px;
+      background: #f2b14a;
+      color: #fff;
+      border-color: #f2b14a;
+      font-weight: 700;
+    }
+
+    .items-count {
+      font-size: 14px;
+      color: #4b4b4b;
+      font-weight: 700;
+    }
+
+    .arrow {
+      font-size: 30px;
+      line-height: 1;
+      color: #111;
+      font-weight: 700;
+    }
+
+    .fields-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(35, 35, 35, 0.28);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 90px;
+      z-index: 30;
+    }
+
+    .fields-modal.open {
+      display: flex;
+    }
+
+    .fields-dialog {
+      width: 540px;
+      max-width: calc(100vw - 40px);
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+      overflow: hidden;
+      border: 1px solid #d8d8d8;
+    }
+
+    .fields-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 24px;
+      font-size: 18px;
+      color: #4a4a4a;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .close-x {
+      font-size: 18px;
+      color: #8a8a8a;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .fields-body {
+      padding: 24px;
+    }
+
+    .fields-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .fields-col-title {
+      font-size: 13px;
+      color: #7a7a7a;
+      margin-bottom: 8px;
+    }
+
+    .field-search-small {
+      width: 100%;
+      height: 38px;
+      border: 1px solid #d7dbe0;
+      border-radius: 3px;
+      padding: 0 12px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .field-box-list {
+      border: 1px solid #e3e3e3;
+      background: #f6f6f6;
+      max-height: 390px;
+      overflow: auto;
+      padding: 4px;
+    }
+
+    .field-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 10px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.35;
+    }
+
+    .field-option.selected {
+      border-color: #eed58b;
+      background: #fffdf6;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d6d6d6;
+      flex: 0 0 12px;
+      margin-top: 3px;
+    }
+
+    .sort-row {
+      text-align: center;
+      color: #7b7b7b;
+      font-size: 12px;
+      padding: 12px 0 4px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 24px 22px;
+      border-top: 1px solid #e5e5e5;
+      background: #fff;
+    }
+
+    .modal-btn-save {
+      background: #f2b14a;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-btn-reset {
+      background: #fff;
+      color: #666;
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1250px) {
+      .grid-top { grid-template-columns: 1fr 1fr 1fr; }
+      .triple-sections { grid-template-columns: 1fr; }
+      .menu { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div>
+        <div class="logo">Breed</div>
+        <small>Interieur</small>
+      </div>
+      <div class="menu">
+        <div>CUSTOMERS</div>
+        <div>PROJECTS</div>
+        <div>PLANNING LINES</div>
+        <div>SALES</div>
+        <div>PURCHASE</div>
+        <div>MESSAGE VIEW</div>
+        <div>TABLES</div>
+        <div>SYSTEM</div>
+      </div>
+    </div>
+    <div class="user">
+      <span>Hello Karel 2</span>
+      <div class="avatar"></div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="card">
+      <div class="card-head">
+        <div class="title-row">
+          <span>ITEM: CUSTOMERS ( 3 OF 977 )</span>
+          <button class="back-btn">&lt; Back</button>
+        </div>
+        <div class="actions">
+          <button class="btn save">Save</button>
+          <button class="btn save">Save and next</button>
+          <button class="btn save">Save and close</button>
+          <button class="btn add">Add +</button>
+          <button class="btn copy">Copy</button>
+          <button class="btn delete">Delete ×</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="grid-top">
+          <div class="field">
+            <label>Id</label>
+            <input class="input" value="1310" />
+          </div>
+          <div class="field">
+            <label>Alternative Id</label>
+            <input class="input" />
+          </div>
+          <div class="field">
+            <label>Salutations</label>
+            <input class="input" value="Please select" />
+          </div>
+          <div class="field">
+            <label>Customer *</label>
+            <input class="input" value="Test customer 2" />
+          </div>
+          <div class="meta-block">
+            Updated by Karel Breed at 04 May 2026 14:45<br/>
+            Created by Karel test at 16 Nov 2023 09:35
+          </div>
+          <div class="status-pill">Active</div>
+        </div>
+
+        <div class="triple-sections">
+          <div>
+            <div class="section-head">
+              <div>Customer <span class="link">Change location</span></div>
+              <div class="input" style="width:140px; min-height:30px; padding-top:6px;">Hoofdkantoor</div>
+            </div>
+            <div class="field"><label>Location *</label><input class="input" value="Kees Gerritsma" /></div>
+            <div class="field" style="margin-top:10px;"><label>address 1 *</label><input class="input" value="mobiel 06-12345678" /></div>
+            <div class="field" style="margin-top:10px;"><label>Address 2</label><input class="input" /></div>
+            <div class="row-2" style="margin-top:10px;">
+              <div class="field"><label>Zipcode</label><input class="input" /></div>
+              <div class="field"><label>City</label><input class="input" value="Keesg@gmail.com" /></div>
+            </div>
+            <div class="field"><label>Country *</label><input class="input" value="Belgium" /></div>
+          </div>
+
+          <div>
+            <div class="section-head">
+              <div>Contact <span class="link">Change contact</span></div>
+              <div class="input" style="width:112px; min-height:30px; padding-top:6px;">Contactpersoon</div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>First Name</label><input class="input" value="1" /></div>
+              <div class="field"><label>Last name *</label><input class="input" value="1" /></div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>Phone</label><input class="input" value="+8801717191919" /></div>
+              <div class="field"><label>Email</label><input class="input" value="jewel@boo2.nl" /></div>
+            </div>
+
+            <div class="section-head" style="margin-top:16px;">
+              <div>Customers other</div>
+            </div>
+            <div class="row-3">
+              <div class="field"><label>VAT *</label><input class="input" value="21%" /></div>
+              <div class="field"><label>Currency *</label><input class="input" value="EUR" /></div>
+              <div class="field"><label>Languages *</label><input class="input" value="dutch" /></div>
+            </div>
+            <div class="row-3">
+              <div class="field"><label>VAT No.</label><input class="input" /></div>
+              <div class="field"><label>Coc</label><input class="input" /></div>
+              <div class="field"><label>Bank</label><input class="input" /></div>
+            </div>
+            <div class="inline-check"><div class="box"></div> Excluding VAT</div>
+          </div>
+
+          <div>
+            <div class="section-head">
+              <div>Contact <span class="link">Change contact</span></div>
+              <div class="input" style="width:102px; min-height:30px; padding-top:6px;">Dochter</div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>First Name</label><input class="input" value="tet@est.com" /></div>
+              <div class="field"><label>Last name</label><input class="input" value="tet@est.com" /></div>
+            </div>
+            <div class="row-2">
+              <div class="field"><label>Phone</label><input class="input" value="+8801717191920" /></div>
+              <div class="field"><label>Email</label><input class="input" value="ashraful@boo2.nl" /></div>
+            </div>
+            <div class="row-2" style="margin-top:44px;">
+              <div class="field"><label>Payment conditions id</label><input class="input" value="30 days" /></div>
+              <div class="field"><label>Category *</label><input class="input" value="Please select" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab" data-tab="details">Details</div>
+          <div class="tab" data-tab="contacts">Contacts <span class="badge">2</span></div>
+          <div class="tab" data-tab="locations">Locations <span class="badge">1</span></div>
+          <div class="tab active" data-tab="projects">Projects <span class="badge">3</span></div>
+          <div class="tab" data-tab="message-view">Message view <span class="badge">7</span></div>
+          <div class="tab" data-tab="documents">Documents</div>
+          <div class="tab" data-tab="history">History <span class="badge">210</span></div>
+        </div>
+
+        <div class="tab-panel">
+          <div class="tab-content" id="tab-details"></div>
+          <div class="tab-content" id="tab-contacts"></div>
+          <div class="tab-content" id="tab-locations"></div>
+          <div class="tab-content" id="tab-documents"></div>
+
+          <div class="projects-listview tab-content active" id="tab-projects">
+            <div class="list-toolbar">
+              <div class="toolbar-label" id="openFieldsBtn">Select fields</div>
+              <div class="toolbar-search">
+                <input type="text" placeholder="Search text" />
+                <button>🔍</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <div class="table-scroll">
+                <div class="list-header">
+                  <div>TO DO closed</div>
+                  <div>Project status ↑</div>
+                  <div>Relatie + Id ↑</div>
+                  <div>Werk adres</div>
+                  <div>Opmerkingen</div>
+                  <div>Project</div>
+                  <div>Aanmaak datum</div>
+                  <div>Totaal verkoopbedrag</div>
+                  <div>Projectleider</div>
+                </div>
+
+                <div class="list-row" style="background:#f7f7f6;">
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                </div>
+
+                <div class="list-row">
+                  <div><span class="status-chip">Nieuw</span></div>
+                  <div></div>
+                  <div>Test customer 2 1310</div>
+                  <div>mobiel 06-12345678<br/>Keesg@gmail.com</div>
+                  <div>test ash description</div>
+                  <div>Test Ash Project 1</div>
+                  <div>07 Mei 2026</div>
+                  <div class="amount-cell">6.146,00</div>
+                  <div>Test2 Dev</div>
+                </div>
+
+                <div class="list-row">
+                  <div><span class="status-chip">Afgerond</span></div>
+                  <div></div>
+                  <div>Test customer 2 1310</div>
+                  <div>mobiel 06-12345678<br/>Keesg@gmail.com</div>
+                  <div>test ashraful<br/>19/11/2024</div>
+                  <div>test</div>
+                  <div>19 Nov 2024</div>
+                  <div class="amount-cell">20,00</div>
+                  <div></div>
+                </div>
+
+                <div class="list-row">
+                  <div><span class="status-chip">Afgerond</span></div>
+                  <div></div>
+                  <div>Test customer 2 1310</div>
+                  <div>mobiel 06-12345678<br/>Keesg@gmail.com</div>
+                  <div>test ashraful</div>
+                  <div>Test Ash 02/12/2024</div>
+                  <div>02 Dec 2024</div>
+                  <div class="amount-cell">512,40</div>
+                  <div>Karel 2 To do</div>
+                </div>
+              </div>
+
+              <div class="list-footer">
+                <div class="show-wrap">
+                  <span class="show-select">10 <span>▾</span></span>
+                  <span class="items-count">Total 875 items</span>
+                </div>
+                <div class="pagination">
+                  <span class="page-pill">1</span>
+                  <span class="page-link">2</span>
+                  <span class="page-link">3</span>
+                  <span class="page-link">&gt;</span>
+                  <span class="page-link">&gt;&gt;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="projects-listview tab-content" id="tab-message-view">
+            <div class="list-toolbar">
+              <div class="toolbar-label" id="openFieldsBtnMessage">Select fields</div>
+              <div class="toolbar-search">
+                <input type="text" placeholder="Search text" />
+                <button>🔍</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <div class="table-scroll">
+                <div class="list-header" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>User</div>
+                  <div>Open / Closed</div>
+                  <div>Project statuses</div>
+                  <div>Sent to users</div>
+                  <div>Msg title</div>
+                  <div>Msg text</div>
+                  <div>Message thread</div>
+                  <div>Entity</div>
+                  <div>Message entity</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px; background:#f7f7f6;">
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                  <div style="display:flex; align-items:center; gap:8px;"><input class="input" style="width:100%; min-height:30px; padding:4px 8px;" /><span style="color:#8d8d8d;">🔍</span></div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#d91d58;">Service</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>Obdam 2190 - Service Jaloezie</div>
+                  <div>Klant stuurt nog een foto op. Jaloezie kantelt niet meer. ...</div>
+                  <div>892</div>
+                  <div>1119</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#e352c7;">Offerte</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>Van Velden 2225 - bellen over budget</div>
+                  <div>5500,- budget voor de deur</div>
+                  <div>891</div>
+                  <div>1155</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#f2cf23; color:#7a4d00;">Advies</span></div>
+                  <div></div>
+                  <div>Winter 2303 - bellen na de vakantie</div>
+                  <div>bellen</div>
+                  <div>890</div>
+                  <div>1248</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#38c18d;">Akkoord</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>de Groot 1717 - vloer</div>
+                  <div>Jaap heeft gebeld. vloer kan PVC plak blijven. alleen aanpas ...</div>
+                  <div>889</div>
+                  <div>560</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>Yes</div>
+                  <div><span class="status-chip" style="background:#a9a7b0;">Afgerond</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>Konings 2013 - Konings teveel betaald</div>
+                  <div>Hi Karel, Mr Konings heeft vandaag alles opgehaald, hij wil ...</div>
+                  <div>888</div>
+                  <div>1350</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#56a0ad;">Uitvoering</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>de Groen 2403 - Offerte aanpassen!</div>
+                  <div>Offerte aanpassen na meten, dan wilt meneer de aanbetaling v ...</div>
+                  <div>887</div>
+                  <div>1375</div>
+                  <div>projects</div>
+                </div>
+
+                <div class="list-row" style="grid-template-columns: 170px 170px 170px 170px 160px 180px 170px 160px 140px; min-width: 1490px;">
+                  <div>Karel Breed</div>
+                  <div>No</div>
+                  <div><span class="status-chip" style="background:#f05a7d;">Uitwerken</span></div>
+                  <div><span style="border:1px solid #6aa0df; padding:4px 8px; display:inline-block; background:#fff;">Karel Breed</span></div>
+                  <div>Breetveld 2413 - Offerte trappen + laminaatvloer</div>
+                  <div>Mevrouw heeft gemaild 02/05 over de offerte. heb gereageerd. ...</div>
+                  <div>881</div>
+                  <div>1391</div>
+                  <div>projects</div>
+                </div>
+              </div>
+
+              <div class="list-footer">
+                <div class="show-wrap">
+                  <span class="show-select">10 <span>▾</span></span>
+                  <span class="items-count">Total 875 items</span>
+                </div>
+                <div class="pagination">
+                  <span class="page-pill">1</span>
+                  <span class="page-link">2</span>
+                  <span class="page-link">3</span>
+                  <span class="page-link">&gt;</span>
+                  <span class="page-link">&gt;&gt;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fields-modal" id="fieldsModal">
+    <div class="fields-dialog">
+      <div class="fields-head">
+        <span>Drag fields to right to show in list</span>
+        <span class="close-x" id="closeFieldsBtn">×</span>
+      </div>
+      <div class="fields-body">
+        <div class="fields-columns">
+          <div>
+            <div class="fields-col-title">List of available fields</div>
+            <input class="field-search-small" type="text" placeholder="Search text" />
+            <div class="field-box-list">
+              <div class="field-option"><span class="dot"></span><span>Salutations</span></div>
+              <div class="field-option"><span class="dot"></span><span>Location</span></div>
+              <div class="field-option"><span class="dot"></span><span>Total purchase amount</span></div>
+              <div class="field-option"><span class="dot"></span><span>Projects contact 1</span></div>
+              <div class="field-option"><span class="dot"></span><span>Projects contact customers id 1</span></div>
+              <div class="field-option"><span class="dot"></span><span>Projects contact 2</span></div>
+              <div class="field-option"><span class="dot"></span><span>Projects contact customers id 2</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="fields-col-title">Selected fields</div>
+            <input class="field-search-small" type="text" placeholder="Search text" />
+            <div class="field-box-list">
+              <div class="field-option selected"><span class="dot"></span><span>Projects message closed</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Project statuses</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Customer ID</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Projects customer location details</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Description</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Project</span></div>
+              <div class="field-option selected"><span class="dot"></span><span>Date</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="sort-row">Click ⚪ to sort 🔼 🔽</div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn-save" id="saveFieldsBtn">Save</button>
+        <button class="modal-btn-reset">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab[data-tab]');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-tab');
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        const activePanel = document.getElementById('tab-' + target);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+
+    const openFieldsBtn = document.getElementById('openFieldsBtn');
+    const openFieldsBtnMessage = document.getElementById('openFieldsBtnMessage');
+    const closeFieldsBtn = document.getElementById('closeFieldsBtn');
+    const saveFieldsBtn = document.getElementById('saveFieldsBtn');
+    const fieldsModal = document.getElementById('fieldsModal');
+
+    function openFieldsModal() {
+      fieldsModal.classList.add('open');
+    }
+
+    openFieldsBtn.addEventListener('click', openFieldsModal);
+    openFieldsBtnMessage.addEventListener('click', openFieldsModal);
+    closeFieldsBtn.addEventListener('click', () => fieldsModal.classList.remove('open'));
+    saveFieldsBtn.addEventListener('click', () => fieldsModal.classList.remove('open'));
+    fieldsModal.addEventListener('click', (e) => {
+      if (e.target === fieldsModal) fieldsModal.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
